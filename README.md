@@ -1,4 +1,4 @@
-# Desafio 10 del curso de Programacion BackEnd de Coderhouse
+# Desafio 12 del curso de Programacion BackEnd de Coderhouse
 
 Realizamos en base al desafio anterior la implementacion de websockets con la
 libreria socket.io, incorporando la actualizacion de la lista de productos a
