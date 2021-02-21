@@ -1,9 +1,8 @@
 # Desafio 10 del curso de Programacion BackEnd de Coderhouse
 
-Realizamos en base al desafio anterior la implementacion de plantillas con
-Handlebars, incorporando una vista de todos los productos cargados al servidor
-al momento _(localhost:4000/productos/vista)_ y un formulario de carga
-_(localhost:4000/productos/carga)_.
+Realizamos en base al desafio anterior la implementacion de websockets con la
+libreria socket.io, incorporando la actualizacion de la lista de productos a
+tiempo real en la vista ubicada en _http://localhost:4000/_
 
 <br>
 
