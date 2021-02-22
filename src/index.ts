@@ -1,10 +1,11 @@
+import { Socket } from 'dgram';
 import express, { Application, Request, Response } from 'express';
 import Handlebars from 'express-handlebars';
 
 const app: Application = express();
-const http = require('http').Server(app);
+const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const PORT = 4000;
+const port = process.env.PORT || 4000;
 
 interface Producto {
   title: string;
@@ -39,17 +40,20 @@ app.get('/', (req: Request, res: Response) => {
 
 /*Websockets*/
 io.on('connection', (socket: any) => {
-  socket.broadcast.emit('mensaje', 'Desde el server');
+  console.log('New WebSocket connection');
+  socket.broadcast.emit('message', 'A new user has joined!');
 
-  console.log(socket.id);
+  socket.on('addProduct', (producto: Producto) => {
+    productos.push(producto);
+    io.emit('product', producto);
+  });
 
-  socket.on('producto', (producto: Producto) => {
-    productos = [...productos, producto];
-    io.emit('producto', producto);
+  socket.on('disconnect', () => {
+    io.emit('message', 'A user has left');
   });
 });
 
 /*Starting the server*/
-http.listen(PORT, () => {
-  console.log(`Server on port ${PORT}`);
+http.listen(port, () => {
+  console.log(`Server on port ${port}`);
 });
