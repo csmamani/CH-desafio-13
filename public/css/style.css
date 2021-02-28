@@ -1,13 +1,9 @@
-body {
-  padding: 20px;
-}
-
-h1 {
+.title {
   font-size: 30px;
   color: rgb(31, 31, 247);
   font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
+  text-align: start;
+  margin-bottom: 50px;
 }
 
 label {
@@ -15,15 +11,15 @@ label {
 }
 
 .main-container {
-  background-color: rgb(236, 236, 236);
-  max-width: 600px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 20px;
 }
 
-form {
-  /*max-width: 500px;*/
+.container {
+  background-color: rgb(236, 236, 236);
+  padding: 20px;
   margin: 0 auto;
+  margin-bottom: 50px;
 }
 
 form div {
@@ -34,4 +30,27 @@ form div {
 
 img {
   width: 30px;
+}
+
+.message {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.message .email {
+  font-weight: 600;
+  color: rgb(31, 31, 247);
+  width: 40%;
+}
+
+.message .date {
+  color: rgb(134, 30, 30);
+  width: 30%;
+}
+
+.message .msg {
+  color: green;
+  font-style: italic;
+  width: 30%;
 }

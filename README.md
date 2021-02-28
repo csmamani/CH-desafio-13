@@ -1,8 +1,8 @@
 # Desafio 12 del curso de Programacion BackEnd de Coderhouse
 
-Realizamos en base al desafio anterior la implementacion de websockets con la
-libreria socket.io, incorporando la actualizacion de la lista de productos a
-tiempo real en la vista ubicada en _http://localhost:4000/_
+En base al desafio anterior, agregamos la funcionalidad de un Centro de mensajes
+en el que los usuarios con su mail podran dejar registrados mensajes en la
+pagina.
 
 <br>
 
