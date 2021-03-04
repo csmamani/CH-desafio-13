@@ -1,8 +1,8 @@
-# Desafio 12 del curso de Programacion BackEnd de Coderhouse
+# Desafio 14 del curso de Programacion BackEnd de Coderhouse
 
 En base al desafio anterior, agregamos la funcionalidad de un Centro de mensajes
 en el que los usuarios con su mail podran dejar registrados mensajes en la
-pagina.
+pagina. Implementamos traspilacion de codigo con babel.
 
 <br>
 
