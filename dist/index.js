@@ -1,22 +1,17 @@
 "use strict";
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var express_handlebars_1 = __importDefault(require("express-handlebars"));
-var app = express_1.default();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var PORT = 4000;
-var productos = [];
+const express_1 = __importDefault(require("express"));
+const express_handlebars_1 = __importDefault(require("express-handlebars"));
+const fs_1 = __importDefault(require("fs"));
+const app = express_1.default();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+app.set('PORT', process.env.PORT || 4000);
+let productos = [];
+let mensajes = [];
 /*Middlewares*/
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -31,19 +26,26 @@ app.engine('hbs', express_handlebars_1.default({
 app.set('view engine', 'hbs');
 app.set('views', './views');
 /*Routes*/
-app.get('/', function (req, res) {
-    res.render('vista', { productos: productos });
+app.get('/', (req, res) => {
+    res.render('vista', { productos, mensajes });
 });
 /*Websockets*/
-io.on('connection', function (socket) {
-    socket.broadcast.emit('mensaje', 'Desde el server');
-    console.log(socket.id);
-    socket.on('producto', function (producto) {
-        productos = __spreadArrays(productos, [producto]);
-        io.emit('producto', producto);
+io.on('connection', (socket) => {
+    console.log('New WebSocket connection');
+    socket.on('addProduct', (producto) => {
+        productos.push(producto);
+        io.emit('product', producto);
+    });
+    socket.on('addMessage', (mensaje) => {
+        let { date } = mensaje;
+        let parsedDate = `${date.substr(8, 2)}/${date.substr(5, 2)}/${date.substr(0, 4)} ${date.substr(11, 8)}`;
+        mensaje.date = parsedDate;
+        mensajes = [...mensajes, mensaje];
+        fs_1.default.writeFileSync('mensajes.txt', JSON.stringify(mensajes), 'utf-8');
+        io.emit('showMessage', mensaje);
     });
 });
 /*Starting the server*/
-http.listen(PORT, function () {
-    console.log("Server on port " + PORT);
+http.listen(app.get('PORT'), () => {
+    console.log(`Server on port ${app.get('PORT')}`);
 });
