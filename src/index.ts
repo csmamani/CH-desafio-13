@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import Handlebars from 'express-handlebars';
 import fs from 'fs';
-const { sqlite3Connect } = require('./DB/sqlite3Connect');
+const { sqlite3Connect } = require('./DB/sqlite3.db');
 const knex = require('knex')(sqlite3Connect);
 
 const app: Application = express();
