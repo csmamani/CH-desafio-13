@@ -1,6 +1,8 @@
 import express, { Application, Request, Response } from 'express';
 import Handlebars from 'express-handlebars';
 import fs from 'fs';
+const { sqlite3Connect } = require('./DB/sqlite3Connect');
+const knex = require('knex')(sqlite3Connect);
 
 const app: Application = express();
 const http = require('http').createServer(app);
@@ -52,7 +54,8 @@ io.on('connection', (socket: any) => {
   console.log('New WebSocket connection');
 
   socket.on('addProduct', (producto: Producto) => {
-    productos.push(producto);
+    productos = [...productos, producto];
+
     io.emit('product', producto);
   });
 
@@ -65,6 +68,12 @@ io.on('connection', (socket: any) => {
 
     mensaje.date = parsedDate;
     mensajes = [...mensajes, mensaje];
+
+    knex('mensajes')
+      .insert(mensaje)
+      .then(() => console.log('mensaje inserted'))
+      .catch((err: Error) => console.log(err))
+      .finally(() => knex.destroy());
 
     fs.writeFileSync('mensajes.txt', JSON.stringify(mensajes), 'utf-8');
 
